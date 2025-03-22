@@ -86,7 +86,7 @@ def main():
     group.add_argument("-o", dest="output", type=str, help="Specify output file name")
     group.add_argument(
         "-O",
-        dest="auto-out",
+        dest="auto_out",
         action="store_true",
         help="Automatically set output file name by replacing input file's extension with .html (cannot be used with standard input)",
     )
