@@ -15,6 +15,9 @@
   - Add a border to all tables.
   - Apply a background color and padding to `<pre>` tags for better readability of code blocks.
 
+- **Heading Demotion Option:**  
+  Optional flag to render Markdown headings as bold paragraphs, avoiding oversized default heading styles in Moodle.
+
 - **Error Checking:**  
   Validates the correct pairing of math delimiters (`$` and `$$`) and reports errors if mismatches are found.
 
@@ -53,8 +56,8 @@ Use the `--auto-out` option to have the tool automatically replace the input fil
   **Note:** This option cannot be used when reading from standard input.
   
   ```bash
-  to-moodle-html input.md --auto-out
-  ```
+to-moodle-html input.md --auto-out
+```
 
 If no output option is specified, the resulting HTML is printed to standard output:
 
@@ -67,6 +70,16 @@ For standard input usage:
 ```bash
 cat input.md | to-moodle-html -
 ```
+
+### Moodle-Friendly Headings
+
+Some Moodle themes display `<h1>`-`<h6>` elements with large fonts. Use `--headings-as-paragraphs` (or `-P`) to convert every Markdown heading into a paragraph whose content is wrapped with `<strong>...</strong>`.
+
+```bash
+to-moodle-html input.md -P
+```
+
+This preserves the heading text while better matching Moodle's typography expectations.
 
 ## Requirements
 

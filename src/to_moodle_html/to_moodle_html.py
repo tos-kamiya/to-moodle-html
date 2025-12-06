@@ -74,6 +74,17 @@ def format_latex_math_blocks(text):
     return "\n".join(r)
 
 
+def convert_headings_to_paragraphs(soup):
+    for level in range(1, 7):
+        for heading in soup.find_all(f"h{level}"):
+            new_p = soup.new_tag("p")
+            strong = soup.new_tag("strong")
+            for child in list(heading.contents):
+                strong.append(child)
+            new_p.append(strong)
+            heading.replace_with(new_p)
+
+
 def main():
     import os
     parser = argparse.ArgumentParser(description="Convert markdown to Moodle-ish html")
@@ -89,6 +100,12 @@ def main():
         dest="auto_out",
         action="store_true",
         help="Automatically set output file name by replacing input file's extension with .html (cannot be used with standard input)",
+    )
+    parser.add_argument(
+        "-P",
+        "--headings-as-paragraphs",
+        action="store_true",
+        help="Render Markdown headings as bold paragraphs instead of <h1>-<h6> tags",
     )
     parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
 
@@ -135,6 +152,9 @@ def main():
         if s and not s.endswith(";"):
             s = s + ";"
         t.attrs["style"] = s + "background-color: #e8e8e8; padding: 10px;"
+
+    if args.headings_as_paragraphs:
+        convert_headings_to_paragraphs(soup)
 
     output_text = soup.prettify()
 
